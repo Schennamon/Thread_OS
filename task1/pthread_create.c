@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+
+void *any_func(void *args){
+	for(int i = 1; i <= 10; i++){
+		fprintf(stderr, "Child Thread. Iteration: %d\n", i);
+		sleep(2);
+	}
+
+	return NULL;
+}
+
+int main()
+{
+	pthread_t thread;
+	int result;
+
+	result = pthread_create(&thread, NULL, &any_func, NULL);
+
+	if(result != 0){
+		fprintf(stderr, "Error\n");
+
+		return 1;
+	}
+
+	for(int i = 1; i <= 10; i++){
+		fprintf(stderr, "Main Thread. Iteration: %d\n", i);
+		sleep(2);
+	}
+	
+	while(1);
+
+	return 0;
+}
